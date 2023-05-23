@@ -2,13 +2,11 @@
 function GreenlandRun
 
 % test on modelling Greenland ice sheet 10km
-% f.ETISh v.1.8
+% Kori v0.9 - 2023
 
 %----------------------------------------
 clear;
 close all;
-
-% maxNumCompThreads(2);
 
 % Initialization SIA
 
@@ -18,7 +16,6 @@ ctr.jmax=151;
 ctr.delta=10.e3;
 ctr.nsteps=2001;
 ctr.dt=20;
-
 ctr.Tcalc=2;
 ctr.Tinit=1; % SET 1 FOR INITIALIZATION !
 ctr.Asin=zeros(ctr.imax,ctr.jmax)+3e-9; %3e-9
