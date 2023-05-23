@@ -1,2 +1,3 @@
 # Karthaus
-Karthaus course model codes
+Karthaus course material and simple model codes
+
