@@ -15,9 +15,9 @@ ctr.m=3;
 ctr.dt=1;
 ctr.nsteps=8001;
 ctr.mismip=1; % indicates that BCs need to be applied
-ctr.SSA=1;
+ctr.SSA=2;
 ctr.shelf=1;
-ctr.Ao=2e-17; % 4.0e-17
+ctr.Ao=4e-17; % 4.0e-17
 ctr.shelftune=1;
 ctr.Asin=zeros(ctr.imax,ctr.jmax)+1e-6; % 1e-5
 
@@ -34,54 +34,56 @@ Mb=zeros(ctr.imax,ctr.jmax)+0.3;
 Ts=zeros(ctr.imax,ctr.jmax)-5.0;
 save('MISMIPplusin','B','H','Mb','Ts');
 
-%KoriModel('MISMIPplusin','mismiptestin_2km',ctr);
+% KoriModel('MISMIPplusin','mismiptestin_2km',ctr);
 
 
 % Refining grounding line position on upward bed slope: Ice0
 
-ctr.Ao=4e-17;
+ctr.Ao=6e-17;
+ctr.u0=300;
 ctr.nsteps=8001;
-KoriModelAll('mismiptestin_2km','mismiptest1_2km',ctr);
+% KoriModel('mismiptestin_2km','mismiptest1_2km',ctr);
 
 % Ice1r experiment for 100 year with melting
 
-% ctr.nsteps=101;
-% ctr.meltfunc=10;
-% ctr.meltfac=1;
-% ctr.BetaIter=ctr.nsteps;
-% KoriModel('mismiptest1_2km','mismiptest1r_2km',ctr);
-% 
-% % Ice1rr experiment for 200 year with melting
-% 
-% ctr.nsteps=201;
-% KoriModel('mismiptest1_2km','mismiptest1rr_2km',ctr);
-% 
-% % Ice1ra experiment starting from Ice1r without melt
-% 
-% ctr.nsteps=101;
-% ctr.meltfunc=0;
-% KoriModel('mismiptest1r_2km','mismiptest1ra_2km',ctr);
-% 
-% % Plot results
-% 
-% load mismiptest1_2km_toto;
-% Li=(ctr.imax-2)*ctr.delta/1e3;
-% Lj=(ctr.jmax-2)*ctr.delta/1e3;
-% [Xo,Yo] = meshgrid(-ctr.delta/1e3:ctr.delta/1e3:Lj,-ctr.delta/1e3:ctr.delta/1e3:Li);
-% figure;
-% contour(Xo,-Yo,MASK,[1],'k','linewidth',2);
-% hold on;
-% load mismiptest1r_2km;
-% contour(Xo,-Yo,MASK,[1],'r','linewidth',2);
-% load mismiptest1rr_2km;
-% contour(Xo,-Yo,MASK,[1],'g','linewidth',2);
-% load mismiptest1ra_2km;
-% contour(Xo,-Yo,MASK,[1],'b','linewidth',2);
-% xlim([300 550]);
-% xlabel('x (km)');
-% ylabel('y (km)');
-% grid on;
-% legend('Ice0','Ice1r','Ice1rr','Ice1ra');
+ctr.nsteps=101;
+ctr.meltfunc=10;
+ctr.meltfac=1;
+ctr.BetaIter=ctr.nsteps;
+KoriModel('mismiptest1_2km','mismiptest1r_2km',ctr);
+
+% Ice1rr experiment for 200 year with melting
+
+ctr.nsteps=201;
+KoriModel('mismiptest1_2km','mismiptest1rr_2km',ctr);
+
+% Ice1ra experiment starting from Ice1r without melt
+
+ctr.nsteps=1001;
+ctr.meltfunc=0;
+ctr.meltfac=0;
+KoriModel('mismiptest1r_2km','mismiptest1ra_2km',ctr);
+
+% Plot results
+
+load mismiptest1_2km_toto;
+Li=(ctr.imax-2)*ctr.delta/1e3;
+Lj=(ctr.jmax-2)*ctr.delta/1e3;
+[Xo,Yo] = meshgrid(-ctr.delta/1e3:ctr.delta/1e3:Lj,-ctr.delta/1e3:ctr.delta/1e3:Li);
+figure;
+contour(Xo,-Yo,MASK,[1],'k','linewidth',2);
+hold on;
+load mismiptest1r_2km;
+contour(Xo,-Yo,MASK,[1],'r','linewidth',2);
+load mismiptest1rr_2km;
+contour(Xo,-Yo,MASK,[1],'g','linewidth',2);
+load mismiptest1ra_2km;
+contour(Xo,-Yo,MASK,[1],'b','linewidth',2);
+xlim([300 600]);
+xlabel('x (km)');
+ylabel('y (km)');
+grid on;
+legend('Ice0','Ice1r','Ice1rr','Ice1ra');
 
 
 end
